@@ -7,7 +7,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change_this_secret")
 
 ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
 ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
-REDIRECT_URI = "https://sierraterminalstaging-production.up.railway.app/roblox/oauth/callback"
+REDIRECT_URI = "https://flaskwebappsierra7-production.up.railway.app/roblox/oauth/callback"
 
 @app.route("/roblox/oauth/start")
 def roblox_oauth_start():
@@ -56,5 +56,5 @@ def roblox_oauth_callback():
     return f"Roblox account linked: {user_data}"
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
