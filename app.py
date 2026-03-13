@@ -9,8 +9,12 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change_this_secret")
 
 # MongoDB setup
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:ToflcolbjYxOCwRJyIsyoqvIDBISAXgP@interchange.proxy.rlwy.net:32018")
+# Extract database name from URI or set a default
+from urllib.parse import urlparse
+parsed = urlparse(MONGO_URI)
+db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "appdb")
 mongo_client = MongoClient(MONGO_URI)
-mongo_db = mongo_client.get_default_database() if mongo_client else None
+mongo_db = mongo_client[db_name] if mongo_client else None
 mongo_collection = mongo_db["verifications"] if mongo_db else None
 
 ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
