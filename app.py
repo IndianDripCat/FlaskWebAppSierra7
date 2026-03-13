@@ -12,72 +12,53 @@ MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:ToflcolbjYxOCwRJyIsyoqv
 # Extract database name from URI or set a default
 from urllib.parse import urlparse
 parsed = urlparse(MONGO_URI)
-db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "sierra_applications")
+db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "appdb")
 mongo_client = MongoClient(MONGO_URI)
 mongo_db = mongo_client[db_name] if mongo_client is not None else None
 mongo_collection = mongo_db["verifications"] if mongo_db is not None else None
 
-ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
-ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
-REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/roblox/oauth/callback"
+# Discord OAuth2 setup
+DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
+DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
+DISCORD_REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/discord/oauth/callback"
+DISCORD_SCOPE = "identify"
 
-@app.route("/roblox/oauth/start")
-def roblox_oauth_start():
+@app.route("/discord/oauth/start")
+def discord_oauth_start():
     authorize_url = (
-        "https://apis.roblox.com/oauth/v1/authorize"
-        "?response_type=code"
-        f"&client_id={ROBLOX_CLIENT_ID}"
-        f"&redirect_uri={REDIRECT_URI}"
-        "&scope=openid profile"
-        "&state=discord"
+        "https://discord.com/api/oauth2/authorize"
+        f"?client_id={DISCORD_CLIENT_ID}"
+        f"&redirect_uri={DISCORD_REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope={DISCORD_SCOPE}"
+        "&prompt=consent"
     )
     return redirect(authorize_url)
 
-@app.route("/roblox/oauth/callback")
-def roblox_oauth_callback():
+@app.route("/discord/oauth/callback")
+def discord_oauth_callback():
     code = request.args.get("code")
     if not code:
-        return "Missing code", 400
-
+        return "Missing Discord code", 400
     # Exchange code for token
-    token_url = "https://apis.roblox.com/oauth/v1/token"
+    token_url = "https://discord.com/api/oauth2/token"
     data = {
+        "client_id": DISCORD_CLIENT_ID,
+        "client_secret": DISCORD_CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": REDIRECT_URI,
-        "client_id": ROBLOX_CLIENT_ID,
-        "client_secret": ROBLOX_CLIENT_SECRET,
+        "redirect_uri": DISCORD_REDIRECT_URI,
+        "scope": DISCORD_SCOPE,
     }
-    resp = requests.post(token_url, data=data)
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    resp = requests.post(token_url, data=data, headers=headers)
     if resp.status_code != 200:
-        return f"Token error: {resp.text}", 400
-
+        return f"Discord token error: {resp.text}", 400
     token_info = resp.json()
     access_token = token_info.get("access_token")
-
-    # Fetch user info
-    user_info_url = "https://apis.roblox.com/oauth/v1/userinfo"
+    # Fetch Discord user info
+    user_info_url = "https://discord.com/api/users/@me"
     headers = {"Authorization": f"Bearer {access_token}"}
-    user_resp = requests.get(user_info_url, headers=headers)
-    if user_resp.status_code != 200:
-        return f"User info error: {user_resp.text}", 400
-
-    user_data = user_resp.json()
-
-    # Log user_data to MongoDB
-    if mongo_collection is not None:
-        try:
-            log_entry = {
-                "user_data": user_data,
-                "ip": request.remote_addr,
-                "user_agent": request.headers.get("User-Agent"),
-                "event": "roblox_verification",
-            }
-            mongo_collection.insert_one(log_entry)
-        except Exception as e:
-            print(f"MongoDB logging error: {e}")
-
-    return f"Roblox account linked: {user_data}"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
