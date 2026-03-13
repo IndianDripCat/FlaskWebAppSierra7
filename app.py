@@ -65,7 +65,7 @@ def roblox_oauth_callback():
     user_data = user_resp.json()
 
     # Log user_data to MongoDB
-    if mongo_collection:
+    if mongo_collection is not None:
         try:
             log_entry = {
                 "user_data": user_data,
