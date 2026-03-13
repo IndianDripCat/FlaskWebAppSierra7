@@ -14,8 +14,8 @@ from urllib.parse import urlparse
 parsed = urlparse(MONGO_URI)
 db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "appdb")
 mongo_client = MongoClient(MONGO_URI)
-mongo_db = mongo_client[db_name] if mongo_client else None
-mongo_collection = mongo_db["verifications"] if mongo_db else None
+mongo_db = mongo_client[db_name] if mongo_client is not None else None
+mongo_collection = mongo_db["verifications"] if mongo_db is not None else None
 
 ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
 ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
