@@ -80,12 +80,13 @@ def discord_oauth_callback():
 @app.route("/roblox/oauth/start")
 def roblox_oauth_start():
     authorize_url = (
-        "https://apis.roblox.com/oauth/v1/authorize"
+        "https://authorize.roblox.com/"
         f"?client_id={ROBLOX_CLIENT_ID}"
         f"&redirect_uri={ROBLOX_REDIRECT_URI}"
         f"&response_type=code"
-        f"&scope={ROBLOX_SCOPE}"
-        "&prompt=select_account"
+        f"&scope=openid+profile"
+        f"&state=discord"
+        f"&step=account"
     )
     return redirect(authorize_url)
 
