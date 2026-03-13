@@ -12,7 +12,7 @@ MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:ToflcolbjYxOCwRJyIsyoqv
 # Extract database name from URI or set a default
 from urllib.parse import urlparse
 parsed = urlparse(MONGO_URI)
-db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "appdb")
+db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "sierra_applications")
 mongo_client = MongoClient(MONGO_URI)
 mongo_db = mongo_client[db_name] if mongo_client is not None else None
 mongo_collection = mongo_db["verifications"] if mongo_db is not None else None
