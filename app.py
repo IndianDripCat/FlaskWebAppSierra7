@@ -7,7 +7,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change_this_secret")
 
 ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
 ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
-REDIRECT_URI = "https://flaskwebappsierra7-production.up.railway.app/roblox/oauth/callback"
+REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/roblox/oauth/callback"
 
 @app.route("/roblox/oauth/start")
 def roblox_oauth_start():
