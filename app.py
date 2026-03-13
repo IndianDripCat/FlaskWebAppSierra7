@@ -17,11 +17,18 @@ mongo_client = MongoClient(MONGO_URI)
 mongo_db = mongo_client[db_name] if mongo_client is not None else None
 mongo_collection = mongo_db["verifications"] if mongo_db is not None else None
 
+
 # Discord OAuth2 setup
 DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
 DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
-DISCORD_REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/discord/oauth/callback"
+DISCORD_REDIRECT_URI = os.environ.get("DISCORD_REDIRECT_URI", "https://flaskwebappsierra7-production-6f7b.up.railway.app/discord/oauth/callback")
 DISCORD_SCOPE = "identify"
+
+# Roblox OAuth2 setup
+ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
+ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
+ROBLOX_REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/roblox/oauth/callback"
+ROBLOX_SCOPE = "openid profile"
 
 @app.route("/discord/oauth/start")
 def discord_oauth_start():
@@ -34,6 +41,7 @@ def discord_oauth_start():
         "&prompt=consent"
     )
     return redirect(authorize_url)
+
 
 @app.route("/discord/oauth/callback")
 def discord_oauth_callback():
@@ -59,6 +67,64 @@ def discord_oauth_callback():
     # Fetch Discord user info
     user_info_url = "https://discord.com/api/users/@me"
     headers = {"Authorization": f"Bearer {access_token}"}
+    user_resp = requests.get(user_info_url, headers=headers)
+    if user_resp.status_code != 200:
+        return f"Discord user error: {user_resp.text}", 400
+    discord_user = user_resp.json()
+    # Store Discord info in session
+    session["discord_user"] = discord_user
+    # Redirect to Roblox OAuth
+    return redirect(url_for("roblox_oauth_start"))
+
+# Roblox OAuth2 endpoints
+@app.route("/roblox/oauth/start")
+def roblox_oauth_start():
+    authorize_url = (
+        "https://apis.roblox.com/oauth/v1/authorize"
+        f"?client_id={ROBLOX_CLIENT_ID}"
+        f"&redirect_uri={ROBLOX_REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope={ROBLOX_SCOPE}"
+        "&prompt=consent"
+    )
+    return redirect(authorize_url)
+
+@app.route("/roblox/oauth/callback")
+def roblox_oauth_callback():
+    code = request.args.get("code")
+    if not code:
+        return "Missing Roblox code", 400
+    # Exchange code for token
+    token_url = "https://apis.roblox.com/oauth/v1/token"
+    data = {
+        "client_id": ROBLOX_CLIENT_ID,
+        "client_secret": ROBLOX_CLIENT_SECRET,
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": ROBLOX_REDIRECT_URI,
+    }
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    resp = requests.post(token_url, data=data, headers=headers)
+    if resp.status_code != 200:
+        return f"Roblox token error: {resp.text}", 400
+    token_info = resp.json()
+    access_token = token_info.get("access_token")
+    # Fetch Roblox user info
+    user_info_url = "https://apis.roblox.com/oauth/v1/userinfo"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    user_resp = requests.get(user_info_url, headers=headers)
+    if user_resp.status_code != 200:
+        return f"Roblox user error: {user_resp.text}", 400
+    roblox_user = user_resp.json()
+    # Store Roblox info in session
+    session["roblox_user"] = roblox_user
+    # Store both Discord and Roblox info in DB
+    if mongo_collection:
+        mongo_collection.insert_one({
+            "discord": session.get("discord_user"),
+            "roblox": roblox_user
+        })
+    return "Verification complete! You may close this page."
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
