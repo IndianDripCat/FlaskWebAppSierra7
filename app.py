@@ -12,7 +12,7 @@ MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:ToflcolbjYxOCwRJyIsyoqv
 # Extract database name from URI or set a default
 from urllib.parse import urlparse
 parsed = urlparse(MONGO_URI)
-db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "appdb")
+db_name = (parsed.path[1:] if parsed.path and len(parsed.path) > 1 else "sierra_applications")
 mongo_client = MongoClient(MONGO_URI)
 mongo_db = mongo_client[db_name] if mongo_client is not None else None
 mongo_collection = mongo_db["verifications"] if mongo_db is not None else None
@@ -120,7 +120,7 @@ def roblox_oauth_callback():
     # Store Roblox info in session
     session["roblox_user"] = roblox_user
     # Store both Discord and Roblox info in DB
-    if mongo_collection:
+    if mongo_collection is not None:
         mongo_collection.insert_one({
             "discord": session.get("discord_user"),
             "roblox": roblox_user
