@@ -1,9 +1,17 @@
 from flask import Flask, redirect, request, session, url_for
 import requests
 import os
+from pymongo import MongoClient
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change_this_secret")
+
+# MongoDB setup
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongo:ToflcolbjYxOCwRJyIsyoqvIDBISAXgP@interchange.proxy.rlwy.net:32018")
+mongo_client = MongoClient(MONGO_URI)
+mongo_db = mongo_client.get_default_database() if mongo_client else None
+mongo_collection = mongo_db["verifications"] if mongo_db else None
 
 ROBLOX_CLIENT_ID = os.environ.get("ROBLOX_CLIENT_ID")
 ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
@@ -51,7 +59,19 @@ def roblox_oauth_callback():
         return f"User info error: {user_resp.text}", 400
 
     user_data = user_resp.json()
-    # TODO: Log user_data to MongoDB
+
+    # Log user_data to MongoDB
+    if mongo_collection:
+        try:
+            log_entry = {
+                "user_data": user_data,
+                "ip": request.remote_addr,
+                "user_agent": request.headers.get("User-Agent"),
+                "event": "roblox_verification",
+            }
+            mongo_collection.insert_one(log_entry)
+        except Exception as e:
+            print(f"MongoDB logging error: {e}")
 
     return f"Roblox account linked: {user_data}"
 
