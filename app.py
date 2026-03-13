@@ -85,7 +85,7 @@ def roblox_oauth_start():
         f"&redirect_uri={ROBLOX_REDIRECT_URI}"
         f"&response_type=code"
         f"&scope={ROBLOX_SCOPE}"
-        "&prompt=consent"
+        "&prompt=select_account"
     )
     return redirect(authorize_url)
 
