@@ -30,6 +30,14 @@ ROBLOX_CLIENT_SECRET = os.environ.get("ROBLOX_CLIENT_SECRET")
 ROBLOX_REDIRECT_URI = "https://flaskwebappsierra7-production-6f7b.up.railway.app/roblox/oauth/callback"
 ROBLOX_SCOPE = "openid profile"
 
+@app.route("/")
+def index():
+    return """
+    <h1>Welcome to the Verification Service</h1>
+    <p><a href='/discord/oauth/start'>Start Discord + Roblox Verification</a></p>
+    <p><a href='/terms'>Terms of Service</a> | <a href='/privacy'>Privacy Policy</a></p>
+    """
+
 @app.route("/terms")
 def terms():
     return """
