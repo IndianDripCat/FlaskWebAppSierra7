@@ -32,25 +32,18 @@ ROBLOX_SCOPE = "openid profile"
 
 @app.route("/")
 def index():
-    return """
-    <h1>Welcome to the Verification Service</h1>
-    <p><a href='/discord/oauth/start'>Start Discord + Roblox Verification</a></p>
-    <p><a href='/terms'>Terms of Service</a> | <a href='/privacy'>Privacy Policy</a></p>
-    """
+    from flask import render_template
+    return render_template("index.html")
 
 @app.route("/terms")
 def terms():
-    return """
-    <h1>Terms of Service</h1>
-    <p>By using this service, you agree to abide by all applicable laws and regulations. You must not use this service for any illegal or unauthorized purpose. The service is provided as-is, without warranty of any kind. We reserve the right to terminate accounts or access to the service at our discretion. Continued use of the service constitutes acceptance of these terms.</p>
-    """
+    from flask import render_template
+    return render_template("terms.html")
 
 @app.route("/privacy")
 def privacy():
-    return """
-    <h1>Privacy Policy</h1>
-    <p>We value your privacy. Information collected through this service, including Discord and Roblox account data, is used solely for verification and service functionality. We do not sell or share your personal information with third parties except as required by law. By using this service, you consent to this privacy policy.</p>
-    """
+    from flask import render_template
+    return render_template("privacy.html")
 
 @app.route("/discord/oauth/start")
 def discord_oauth_start():
