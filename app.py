@@ -140,7 +140,8 @@ def roblox_oauth_callback():
             "discord": session.get("discord_user"),
             "roblox": roblox_user
         })
-    return "Verification complete! You may close this page."
+    from flask import render_template
+    return render_template("verification_complete.html")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
