@@ -27,10 +27,37 @@
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; } 50% { transform: translateY(-100vh) rotate(360deg); opacity: 1; } }
         .header {
             width: 100%;
-            background: #13132a;
+            background: transparent;
             padding: 32px 0 24px 0;
             text-align: center;
-            z-index: 1;
+            z-index: 2;
+            position: relative;
+        }
+        .tabbar {
+            position: absolute;
+            top: 32px;
+            right: 48px;
+            background: rgba(0,0,0,0.55);
+            border-radius: 18px;
+            padding: 8px 28px;
+            display: flex;
+            gap: 32px;
+            z-index: 10;
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+        }
+        .tabbar a {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            padding: 4px 0;
+            transition: border-bottom 0.2s, color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .tabbar a:hover {
+            border-bottom: 2px solid #fff;
+            color: #fff;
         }
         .logo {
             font-size: 40px;
@@ -113,6 +140,11 @@
         <div class="particle"></div>
     </div>
     <div class="header">
+        <div class="tabbar">
+            <a href="/">Home</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
         <div class="logo">S7</div>
         <div class="title">Sierra 7</div>
         <div class="subtitle">Welcome to SCP - Sierra 7.</div>
@@ -133,7 +165,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Sierra 7. All rights reserved.
+            &copy; Sierra 7 2026. All rights reserved.
         </div>
     </footer>
 </body>
