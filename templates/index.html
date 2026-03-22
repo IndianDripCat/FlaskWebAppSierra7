@@ -145,8 +145,134 @@
             <a href="#manufacturing" class="nav-btn">Manufacturing</a>
         </div>
         <div class="header-right">
-            <a href="#login" class="login-btn">Login</a>
+            <a href="#login" class="login-btn" id="openLoginModal">Login</a>
         </div>
+        <!-- LOGIN MODAL -->
+        <div id="loginModal" class="login-modal" style="display:none;">
+            <div class="login-modal-content">
+                <div class="login-stepper">
+                    <div class="step step-1"><span class="step-circle" id="stepCircle1">1</span><div class="step-line"></div></div>
+                    <div class="step step-2"><span class="step-circle" id="stepCircle2">2</span><div class="step-line"></div></div>
+                    <div class="step step-3"><span class="step-circle" id="stepCircle3">3</span></div>
+                </div>
+                <div class="login-step-content" id="loginStepContent">
+                    <!-- Step content will be injected here -->
+                </div>
+                <span class="login-modal-close" id="closeLoginModal">&times;</span>
+            </div>
+        </div>
+        <style>
+            .login-modal {
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.65); z-index: 1000; display: flex; align-items: center; justify-content: center;
+            }
+            .login-modal-content {
+                background: #18181f; border-radius: 18px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+                padding: 40px 48px 40px 32px; min-width: 420px; min-height: 320px; display: flex; align-items: flex-start; position: relative;
+            }
+            .login-stepper {
+                display: flex; flex-direction: column; align-items: center; margin-right: 36px; margin-top: 8px;
+            }
+            .step { display: flex; flex-direction: column; align-items: center; }
+            .step-circle {
+                width: 36px; height: 36px; border-radius: 50%; background: #23232b; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 0; border: 2.5px solid #444; transition: background 0.2s, border 0.2s;
+            }
+            .step-circle.filled { background: #ff1744; border: 2.5px solid #ff1744; color: #fff; }
+            .step-line { width: 3px; height: 32px; background: #444; margin-bottom: 0; }
+            .login-step-content { min-width: 320px; max-width: 340px; }
+            .login-modal-close {
+                position: absolute; top: 18px; right: 24px; color: #fff; font-size: 2rem; cursor: pointer; transition: color 0.2s;
+            }
+            .login-modal-close:hover { color: #ff1744; }
+            .login-step-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+            .login-step-desc { font-size: 1.05rem; color: #ccc; margin-bottom: 24px; }
+            .login-step-btn { font-size: 1.1rem; font-weight: 700; padding: 12px 32px; border-radius: 32px; background: #ff1744; color: #fff; border: none; cursor: pointer; transition: background 0.2s; margin-bottom: 8px; }
+            .login-step-btn:hover { background: #b30021; }
+            .login-profile-img { width: 64px; height: 64px; border-radius: 50%; margin-top: 12px; border: 3px solid #fff; }
+        </style>
+        <script>
+            // Modal logic
+            const openLoginModal = document.getElementById('openLoginModal');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const loginModal = document.getElementById('loginModal');
+            const loginStepContent = document.getElementById('loginStepContent');
+            const stepCircles = [
+                document.getElementById('stepCircle1'),
+                document.getElementById('stepCircle2'),
+                document.getElementById('stepCircle3')
+            ];
+
+            // State: 1=discord, 2=roblox, 3=done
+            let loginStep = 1;
+            let discordUser = null;
+            let robloxUser = null;
+            let robloxAvatar = null;
+
+            function setStep(step) {
+                loginStep = step;
+                stepCircles.forEach((el, idx) => {
+                    if (idx === step-1) el.classList.add('filled');
+                    else el.classList.remove('filled');
+                });
+                if (step === 1) {
+                    loginStepContent.innerHTML = `
+                        <div class="login-step-title">Linking your Discord account</div>
+                        <div class="login-step-desc">Click the button below to link your discord account</div>
+                        <a href="/discord/oauth/start" class="login-step-btn">Link Discord Account</a>
+                    `;
+                } else if (step === 2) {
+                    loginStepContent.innerHTML = `
+                        <div class="login-step-title">Linking your Roblox account</div>
+                        <div class="login-step-desc">Click the button below to link your Roblox account</div>
+                        <a href="/roblox/oauth/start" class="login-step-btn">Link Roblox Account</a>
+                    `;
+                } else if (step === 3) {
+                    let discordName = discordUser ? discordUser.username+'#'+discordUser.discriminator : 'Discord';
+                    let robloxName = robloxUser ? robloxUser.name : 'Roblox';
+                    let robloxImg = robloxAvatar ? `<img src="${robloxAvatar}" class="login-profile-img">` : '';
+                    loginStepContent.innerHTML = `
+                        <div class="login-step-title">Verification complete</div>
+                        <div class="login-step-desc">You have succesfully linked Discord account <b>${discordName}</b> to Roblox account <b>${robloxName}</b>!</div>
+                        ${robloxImg}
+                    `;
+                }
+            }
+
+            openLoginModal.onclick = function() {
+                loginModal.style.display = 'flex';
+                // Check sessionStorage for step
+                let step = parseInt(sessionStorage.getItem('loginStep') || '1');
+                discordUser = JSON.parse(sessionStorage.getItem('discordUser') || 'null');
+                robloxUser = JSON.parse(sessionStorage.getItem('robloxUser') || 'null');
+                robloxAvatar = sessionStorage.getItem('robloxAvatar') || null;
+                setStep(step);
+            };
+            closeLoginModal.onclick = function() {
+                loginModal.style.display = 'none';
+            };
+            window.onclick = function(event) {
+                if (event.target === loginModal) loginModal.style.display = 'none';
+            };
+            // On page load, check for OAuth callback params and update sessionStorage
+            (function() {
+                const url = new URL(window.location.href);
+                if (url.pathname === '/login') {
+                    // Example: /login?step=2&discordUser=...&robloxUser=...&robloxAvatar=...
+                    let step = parseInt(url.searchParams.get('step') || '1');
+                    let discordUser = url.searchParams.get('discordUser');
+                    let robloxUser = url.searchParams.get('robloxUser');
+                    let robloxAvatar = url.searchParams.get('robloxAvatar');
+                    if (discordUser) sessionStorage.setItem('discordUser', discordUser);
+                    if (robloxUser) sessionStorage.setItem('robloxUser', robloxUser);
+                    if (robloxAvatar) sessionStorage.setItem('robloxAvatar', robloxAvatar);
+                    sessionStorage.setItem('loginStep', step);
+                    // Open modal on redirect
+                    setTimeout(() => {
+                        openLoginModal.click();
+                    }, 200);
+                }
+            })();
+        </script>
     </div>
 
     <!-- HERO SECTION -->
