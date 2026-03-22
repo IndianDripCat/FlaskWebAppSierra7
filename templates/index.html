@@ -152,7 +152,8 @@
     <!-- HERO SECTION -->
     <div class="hero-section">
         <img src="https://tr.rbxcdn.com/180DAY-d0a8341e104b3b593d1a2eea785c4450/150/150/Image/Webp/noFilter" alt="SCP Logo" class="hero-logo">
-        <div class="hero-bg" style="background-image: url('https://media.discordapp.net/attachments/1403320903772934194/1477089217925611591/image.png?ex=69c07f08&is=69bf2d88&hm=b21a10f82756df2cec9248652c7888b79104951899d5dcce970ea022aaa31eed&=&format=webp&quality=lossless&width=1766&height=856');">
+        <div class="hero-bg-blend">
+            <div class="hero-bg-img"></div>
             <div class="hero-content">
                 <h1 class="hero-title">WELCOME TO SIERRA-7</h1>
                 <p class="hero-desc">The most elite SCP Foundation on Roblox</p>
@@ -221,10 +222,50 @@
         .login-btn { background: #ff1744; color: #fff; font-weight: 700; padding: 10px 28px; border-radius: 8px; text-decoration: none; font-size: 1.1rem; transition: background 0.2s; }
         .login-btn:hover { background: #b30021; }
 
-        .hero-section { width: 100%; background: #181818; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .hero-logo { width: 110px; height: 110px; border-radius: 50%; margin-top: 32px; margin-bottom: -60px; z-index: 2; border: 6px solid #222; background: #fff; }
-        .hero-bg { width: 100%; min-height: 420px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; border-bottom-left-radius: 60px; border-bottom-right-radius: 60px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18); }
-        .hero-content { width: 100%; max-width: 700px; margin: 0 auto; text-align: center; padding: 90px 0 60px 0; }
+        .hero-section {
+            width: 100%;
+            background: #181818;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin-bottom: -60px;
+            z-index: 2;
+        }
+        .hero-logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin-top: 32px;
+            margin-bottom: -60px;
+            z-index: 3;
+            border: 6px solid #222;
+            background: #fff;
+        }
+        .hero-bg-blend {
+            width: 100%;
+            min-height: 420px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-bg-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(24,24,24,0.98) 0%, rgba(24,24,24,0.85) 60%, rgba(35,35,43,1) 100%), url('https://media.discordapp.net/attachments/1403320903772934194/1477089217925611591/image.png?ex=69c07f08&is=69bf2d88&hm=b21a10f82756df2cec9248652c7888b79104951899d5dcce970ea022aaa31eed&=&format=webp&quality=lossless&width=1766&height=856') center/cover no-repeat;
+            z-index: 1;
+        }
+        .hero-content {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 90px 0 60px 0;
+            position: relative;
+            z-index: 2;
+        }
         .hero-title { font-size: 2.8rem; font-weight: 900; color: #fff; margin-bottom: 12px; letter-spacing: 2px; }
         .hero-desc { font-size: 1.3rem; color: #fff; margin-bottom: 32px; }
         .hero-btns { display: flex; gap: 24px; justify-content: center; }
@@ -234,7 +275,7 @@
         .discord-btn { background: #111; color: #fff; border: 3px solid #fff; margin-left: 8px; }
         .discord-btn:hover { box-shadow: 0 0 0 3px #ff1744; border-color: #ff1744; }
 
-        .about-section { background: linear-gradient(180deg, #23232b 80%, #e0e0e0 100%); padding: 64px 0 48px 0; text-align: center; }
+        .about-section { background: #23232b; padding: 64px 0 48px 0; text-align: center; position: relative; z-index: 1; }
         .about-title { color: #ff1744; font-size: 2.1rem; font-weight: 800; margin-bottom: 18px; letter-spacing: 2px; }
         .about-desc { color: #222; font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
 
