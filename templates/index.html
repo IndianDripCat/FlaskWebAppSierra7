@@ -132,41 +132,148 @@
     </style>
 </head>
 <body>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-    <div class="header">
-        <div class="tabbar">
-            <a href="/">Home</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
+    <!-- HEADER -->
+    <div class="main-header">
+        <div class="header-left">
+            <img src="/static/scp_logo.png" alt="SCP Logo" class="scp-logo">
+            <span class="sierra7-title">SIERRA-7</span>
         </div>
-        <div class="logo">S7</div>
-        <div class="title">Sierra 7</div>
-        <div class="subtitle">Welcome to SCP - Sierra 7.</div>
+        <div class="header-center">
+            <a href="/" class="nav-btn">Home</a>
+            <a href="#play" class="nav-btn">Play</a>
+            <a href="#about" class="nav-btn">About Sierra-7</a>
+            <a href="#manufacturing" class="nav-btn">Manufacturing</a>
+        </div>
+        <div class="header-right">
+            <a href="#login" class="login-btn">Login</a>
+        </div>
     </div>
-    <div class="spacer"></div>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SIERRA 7</h3>
-                <div style="max-width:320px;color:rgba(255,255,255,0.7);font-size:1rem;">Next-generation technology platform delivering secure and modern solutions for the future.</div>
-            </div>
-            <div class="footer-section">
-                <h3>LEGAL</h3>
-                <ul>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/terms">Terms of Service</a></li>
-                </ul>
+
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+        <img src="/static/scp_logo.png" alt="SCP Logo" class="hero-logo">
+        <div class="hero-bg" style="background-image: url('/static/tram_station.png');">
+            <div class="hero-content">
+                <h1 class="hero-title">WELCOME TO SIERRA-7</h1>
+                <p class="hero-desc">The most elite SCP Foundation on Roblox</p>
+                <div class="hero-btns">
+                    <a href="https://www.roblox.com/communities/34230328/SCPF-Special-Containment-Procedures-Foundation#!/about" class="roblox-btn">Join Roblox Group</a>
+                    <a href="https://discord.gg/tG5XgvVhxC" class="discord-btn">Join Discord</a>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; Sierra 7 2026. All rights reserved.
+    </div>
+
+    <!-- ABOUT US SECTION -->
+    <div class="about-section" id="about">
+        <h2 class="about-title">ABOUT US</h2>
+        <p class="about-desc">Welcome to the top-secret organization responsible for the containment and study of anomalous objects and phenomena around the world known and the Special Containment Procedures (SCP) Foundation.</p>
+    </div>
+
+    <!-- SUPPORT SECTION -->
+    <div class="support-section">
+        <h2 class="support-title">SUPPORT THE FOUNDATION TODAY</h2>
+        <p class="support-desc">Support the Foundation today by either becoming a <b>Server Booster</b> or an <b>Investor</b>! See all available options below.</p>
+        <div class="support-btns">
+            <a href="https://www.patreon.com/cw/SRISierra_7" class="patreon-btn" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111688.png" alt="Patreon" class="patreon-logo"><br>Patreon
+            </a>
+            <div class="serverbooster-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-logo"><br>Server Booster
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <!-- FINAL SECTION -->
+    <div class="final-section">
+        <div class="final-left">
+            <img src="/static/scp_logo.png" alt="SCP Logo" class="scp-logo-footer">
+            <div class="final-title">SCP - SIERRA 7</div>
+            <div class="final-btns">
+                <a href="https://www.roblox.com/communities/34230328/SCPF-Special-Containment-Procedures-Foundation#!/about" class="roblox-btn-footer">Roblox</a>
+                <a href="https://discord.gg/tG5XgvVhxC" class="discord-btn-footer">Discord</a>
+            </div>
+        </div>
+        <div class="final-right">
+            <div class="final-managed">Managed & maintained by the Manufacturing Department<br>Owned by MaTiWaWrO and burgerhunter2000</div>
+        </div>
+    </div>
+    <hr class="footer-line">
+    <div class="footer-bottom-custom">
+        &copy; 2026 Sierra 7. All rights reserved.<br>
+        Not affiliated with the SCP Foundation or Roblox Corporation.<br>
+        <a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a>
+    </div>
+
+    <style>
+        .main-header {
+            width: 100%; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(10,10,10,0.98); padding: 18px 48px 18px 32px; position: relative; z-index: 10;
+            border-bottom: 2px solid #222;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .scp-logo { width: 54px; height: 54px; border-radius: 50%; background: #222; }
+        .sierra7-title { font-size: 2.1rem; font-weight: 800; color: #fff; letter-spacing: 2px; }
+        .header-center { display: flex; gap: 32px; }
+        .nav-btn { color: #fff; font-weight: 600; text-decoration: none; font-size: 1.1rem; padding: 8px 0; position: relative; }
+        .nav-btn:hover { color: #ff1744; }
+        .header-right { }
+        .login-btn { background: #ff1744; color: #fff; font-weight: 700; padding: 10px 28px; border-radius: 8px; text-decoration: none; font-size: 1.1rem; transition: background 0.2s; }
+        .login-btn:hover { background: #b30021; }
+
+        .hero-section { width: 100%; background: #181818; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .hero-logo { width: 110px; height: 110px; border-radius: 50%; margin-top: 32px; margin-bottom: -60px; z-index: 2; border: 6px solid #222; background: #fff; }
+        .hero-bg { width: 100%; min-height: 420px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; border-bottom-left-radius: 60px; border-bottom-right-radius: 60px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18); }
+        .hero-content { width: 100%; max-width: 700px; margin: 0 auto; text-align: center; padding: 90px 0 60px 0; }
+        .hero-title { font-size: 2.8rem; font-weight: 900; color: #fff; margin-bottom: 12px; letter-spacing: 2px; }
+        .hero-desc { font-size: 1.3rem; color: #fff; margin-bottom: 32px; }
+        .hero-btns { display: flex; gap: 24px; justify-content: center; }
+        .roblox-btn, .discord-btn { font-size: 1.1rem; font-weight: 700; padding: 14px 32px; border-radius: 32px; text-decoration: none; margin-top: 8px; transition: box-shadow 0.2s, border 0.2s; }
+        .roblox-btn { background: #fff; color: #111; border: 3px solid #111; }
+        .roblox-btn:hover { box-shadow: 0 0 0 3px #ff1744; border-color: #ff1744; }
+        .discord-btn { background: #111; color: #fff; border: 3px solid #fff; margin-left: 8px; }
+        .discord-btn:hover { box-shadow: 0 0 0 3px #ff1744; border-color: #ff1744; }
+
+        .about-section { background: linear-gradient(180deg, #23232b 80%, #e0e0e0 100%); padding: 64px 0 48px 0; text-align: center; }
+        .about-title { color: #ff1744; font-size: 2.1rem; font-weight: 800; margin-bottom: 18px; letter-spacing: 2px; }
+        .about-desc { color: #222; font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+
+        .support-section { background: #f3f3f3; padding: 48px 0 48px 0; text-align: center; }
+        .support-title { color: #ff1744; font-size: 2rem; font-weight: 800; margin-bottom: 18px; letter-spacing: 2px; }
+        .support-desc { color: #222; font-size: 1.1rem; max-width: 700px; margin: 0 auto 32px auto; }
+        .support-btns { display: flex; gap: 32px; justify-content: center; margin-top: 18px; }
+        .patreon-btn, .serverbooster-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; padding: 24px 38px; border-radius: 18px; background: #fff; color: #111; border: 3px solid #fff; cursor: pointer; transition: border 0.2s, box-shadow 0.2s; min-width: 160px; }
+        .patreon-btn:hover { border: 3px solid #ff1744; box-shadow: 0 0 0 3px #ff1744; text-decoration: none; color: #111; }
+        .patreon-logo { width: 38px; height: 38px; margin-bottom: 8px; }
+        .serverbooster-btn { background: #e0e0e0; color: #888; border: 3px solid #e0e0e0; cursor: not-allowed; }
+        .serverbooster-btn:hover { border: 3px solid #ff1744; box-shadow: 0 0 0 3px #ff1744; }
+        .discord-logo { width: 38px; height: 38px; margin-bottom: 8px; }
+
+        .final-section { background: #23232b; color: #fff; display: flex; justify-content: space-between; align-items: flex-start; padding: 48px 48px 32px 48px; }
+        .final-left { display: flex; flex-direction: column; align-items: flex-start; }
+        .scp-logo-footer { width: 54px; height: 54px; border-radius: 50%; background: #222; margin-bottom: 12px; }
+        .final-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 18px; }
+        .final-btns { display: flex; gap: 18px; }
+        .roblox-btn-footer, .discord-btn-footer { font-size: 1.1rem; font-weight: 700; padding: 10px 28px; border-radius: 32px; text-decoration: none; margin-top: 8px; transition: box-shadow 0.2s, border 0.2s; }
+        .roblox-btn-footer { background: #fff; color: #111; border: 3px solid #111; }
+        .roblox-btn-footer:hover { box-shadow: 0 0 0 3px #ff1744; border-color: #ff1744; }
+        .discord-btn-footer { background: #111; color: #fff; border: 3px solid #fff; margin-left: 8px; }
+        .discord-btn-footer:hover { box-shadow: 0 0 0 3px #ff1744; border-color: #ff1744; }
+        .final-right { text-align: right; font-size: 1.05rem; color: #fff; margin-top: 12px; }
+        .footer-line { border: none; border-top: 2px solid #222; margin: 0; }
+        .footer-bottom-custom { background: #23232b; color: #fff; text-align: center; font-size: 1rem; padding: 18px 0 18px 0; }
+        .footer-bottom-custom a { color: #ff1744; text-decoration: underline; margin: 0 8px; }
+        .footer-bottom-custom a:hover { color: #fff; }
+        @media (max-width: 900px) {
+            .main-header, .final-section { flex-direction: column; align-items: flex-start; padding: 18px 18px 18px 18px; }
+            .header-center { margin: 18px 0; }
+            .final-right { text-align: left; margin-top: 24px; }
+        }
+        @media (max-width: 600px) {
+            .main-header, .final-section { padding: 8px 4vw; }
+            .hero-content { padding: 60px 0 40px 0; }
+            .about-section, .support-section { padding: 32px 0; }
+        }
+    </style>
 </body>
 </html>
